@@ -71,6 +71,25 @@ body {
   margin: 0 auto 2rem;
   color: #d6d6e1;
 }
+.gallery-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  align-items: center;
+  justify-items: center;
+}
+.gallery-grid img {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 190, 33, 0.35);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+}
+.hint {
+  color: #b9bce7;
+  margin-top: 0.75rem;
+}
 .cards {
   display: grid;
   gap: 1.2rem;
