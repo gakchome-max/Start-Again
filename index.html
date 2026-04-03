@@ -3,50 +3,238 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dragon World 🐉</title>
+<title>Dragon Army Battle Game 🐉</title>
 <style>
+:root {
+  --bg: #ffd8a8;
+  --card: #fff;
+  --bright: #ff6b9d;
+  --green: #26de81;
+  --blue: #54a0ff;
+  --shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: 'Comic Sans MS', cursive;
-  margin: 0;
-  background: linear-gradient(#87CEFA, #FFE4B5);
+  background: linear-gradient(135deg, #ffa502, #ffd8a8, #ffe4b5);
+  min-height: 100vh;
   text-align: center;
+  color: #333;
 }
 header {
-  background: #ff6b6b;
+  background: linear-gradient(90deg, #ff6b6b, #ff9999);
   padding: 20px;
   color: white;
+  box-shadow: var(--shadow);
+}
+header h1 { font-size: 2.2rem; margin-bottom: 10px; }
+.stats-bar {
+  display: flex;
+  justify-content: space-around;
+  background: rgba(255,255,255,0.3);
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
 }
 nav button {
-  margin: 5px;
-  padding: 10px;
+  padding: 10px 15px;
   border: none;
   background: #4ecdc4;
   color: white;
-  border-radius: 10px;
+  border-radius: 20px;
   cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+nav button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.container {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 0 10px;
 }
 section {
   display: none;
+  background: var(--card);
+  border-radius: 20px;
   padding: 20px;
+  box-shadow: var(--shadow);
+  animation: fadeIn 0.4s ease;
 }
-.active {
-  display: block;
+section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+h2 {
+  font-size: 1.8rem;
+  color: #ff6b6b;
+  margin-bottom: 15px;
 }
-.card {
-  background: white;
+.dragon-card {
+  background: linear-gradient(135deg, #fffacd, #fff);
+  border: 3px dashed #ff9999;
   border-radius: 15px;
   padding: 15px;
   margin: 10px;
   display: inline-block;
-  width: 250px;
+  width: 220px;
+  box-shadow: var(--shadow);
+  transition: 0.2s;
+  cursor: pointer;
 }
-button:hover {
-  transform: scale(1.1);
+.dragon-card:hover {
+  transform: translateY(-5px);
+  border-color: #ff6b6b;
 }
-img.dragon {
-  width: 250px;
+.dragon-card img {
+  width: 180px;
+  height: 180px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin: 10px 0;
+}
+.dragon-card h3 { font-size: 1.1rem; color: #ff6b6b; margin: 8px 0; }
+.dragon-stats {
+  background: rgba(255,107,107,0.1);
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+.stat-item {
+  display: inline-block;
+  margin: 4px 6px;
+  background: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.btn {
+  padding: 10px 20px;
+  border: none;
+  background: #54a0ff;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  margin: 5px;
+  transition: 0.2s;
+}
+.btn:hover { background: #2e86de; transform: scale(1.05); }
+.btn-success { background: #26de81; }
+.btn-success:hover { background: #1abc9c; }
+.btn-danger { background: #ee5a6f; }
+.btn-danger:hover { background: #ff6b6b; }
+.battle-arena {
+  background: linear-gradient(180deg, #e3f2fd, #fff9c4);
   border-radius: 15px;
+  padding: 20px;
+  margin: 20px 0;
+  min-height: 300px;
+}
+.battle-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 20px 0;
+}
+.battle-side {
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.battle-side img {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+.hp-bar {
+  background: #ddd;
+  border-radius: 10px;
+  height: 20px;
+  margin: 10px 0;
+  overflow: hidden;
+}
+.hp-fill {
+  background: #26de81;
+  height: 100%;
+  transition: width 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+.army-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+.squad-slot {
+  background: rgba(255,200,100,0.3);
+  border: 2px dashed #ffaa33;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.squad-slot:hover {
+  background: rgba(255,200,100,0.6);
+  border-color: #ff6b6b;
+}
+.squad-slot img {
+  width: 100%;
+  height: 120px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.ability-btn {
+  background: #54a0ff;
+  padding: 8px 12px;
+  margin: 5px;
+  border-radius: 8px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+.ability-btn:hover { background: #2e86de; }
+.achievement {
+  background: #fff9c4;
+  border: 2px solid #ffd700;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 10px;
+  display: inline-block;
+  width: 150px;
+}
+.achievement-icon { font-size: 2rem; }
+.score-display {
+  background: linear-gradient(90deg, #ffd700, #ffed4e);
+  border-radius: 10px;
+  padding: 15px;
   margin: 15px 0;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #333;
+  box-shadow: var(--shadow);
+}
+@media (max-width: 600px) {
+  .battle-display { grid-template-columns: 1fr; }
+  nav { gap: 5px; }
+  nav button { padding: 8px 12px; font-size: 0.9rem; }
+  .dragon-card { width: 100%; }
 }
 </style>
 </head>
@@ -54,52 +242,250 @@ img.dragon {
 <body>
 
 <header>
-  <h1>🐉 Dragon World 🐉</h1>
+  <h1>⚔️ Dragon Army Battle ⚔️</h1>
+  <div class="stats-bar">
+    <div>💎 Gold: <span id="goldDisplay">100</span></div>
+    <div>⭐ Score: <span id="scoreDisplay">0</span></div>
+    <div>🏆 Level: <span id="levelDisplay">1</span></div>
+  </div>
   <nav>
-    <button onclick="showSection('dragons')">Meet Dragons</button>
-    <button onclick="showSection('quiz')">Quiz</button>
-    <button onclick="showSection('creator')">Create</button>
-    <button onclick="showSection('facts')">Fun Facts</button>
-    <button onclick="showSection('nameGen')">Name Generator</button>
+    <button onclick="showSection('collection')">🐉 Collection</button>
+    <button onclick="showSection('army')">⚔️ Army</button>
+    <button onclick="showSection('battle')">Battle</button>
+    <button onclick="showSection('facts')">📚 Facts</button>
+    <button onclick="showSection('quiz')">❓ Quiz</button>
   </nav>
 </header>
 
-<section id="dragons" class="active">
-  <h2>Meet the Dragons 🐉</h2>
+<div class="container">
 
-  <img src="IMG-20211122-WA0000.jpg" alt="Cute Dragon" class="dragon">
-  <img src="IMG-20211217-WA0001.jpg" alt="Cute Dragon" class="dragon">
-  <img src="IMG-20231124-WA0001.jpg" alt="Cute Dragon" class="dragon">
+<section id="collection" class="active">
+  <h2>Dragon Collection 🐉</h2>
+  <p>Click a dragon to add it to your army!</p>
+  <div id="collectionDisplay"></div>
+</section>
 
-  <div class="card">
-    <h3>🔥 European Dragon</h3>
-    <p>Breathes fire and guards treasure!</p>
+<section id="army">
+  <h2>My Dragon Army ⚔️</h2>
+  <p>Your battle squad (max 3 dragons)</p>
+  <div id="armyDisplay" class="army-list"></div>
+  <button class="btn btn-danger" onclick="clearArmy()">Clear Army</button>
+</section>
+
+<section id="battle">
+  <h2>Dragon Battle Arena 🔥</h2>
+  <div class="battle-arena">
+    <p>Build an army of 1-3 dragons, then face an opponent!</p>
+    <button class="btn btn-success" onclick="startBattle()">START BATTLE</button>
+    <div id="battleDisplay"></div>
   </div>
-  <div class="card">
-    <h3>🌊 Chinese Dragon</h3>
-    <p>Brings rain and good luck!</p>
-  </div>
-  <div class="card">
-    <h3>🌪️ Japanese Dragon</h3>
-    <p>Lives in water and controls storms!</p>
-  </div>
+</section>
+
+<section id="facts">
+  <h2>Dragon Facts 📚</h2>
+  <div id="factsDisplay"></div>
 </section>
 
 <section id="quiz">
   <h2>Dragon Quiz ❓</h2>
-  <p id="question">Which dragon breathes fire?</p>
-  <button onclick="checkAnswer('A')">A: European</button>
-  <button onclick="checkAnswer('B')">B: Chinese</button>
-  <button onclick="checkAnswer('C')">C: Japanese</button>
-  <p id="result"></p>
+  <div id="quizDisplay"></div>
 </section>
 
-<section id="creator">
-  <h2>Create Your Dragon 🎨</h2>
-  <label>Color:</label>
-  <input type="color" id="colorPicker"><br><br>
-  <label>Eyes:</label>
-  <select id="eyes">
+</div>
+
+<script>
+const dragons = [
+  { name: 'Flamey', type: '🔥 Fire', hp: 80, attack: 12, img: 'IMG-20211122-WA0000.jpg', ability: 'Fireball', color: '#ff6b6b' },
+  { name: 'Aqua', type: '🌊 Water', hp: 90, attack: 10, img: 'IMG-20211217-WA0001.jpg', ability: 'Water Splash', color: '#54a0ff' },
+  { name: 'Sparkle', type: '✨ Magic', hp: 70, attack: 15, img: 'IMG-20231124-WA0001.jpg', ability: 'Lightning', color: '#ffd700' }
+];
+
+const facts = [
+  '🔥 European dragons breathe fire and guard treasure in mountains!',
+  '🌊 Chinese dragons are super long and bring rain to crops!',
+  '⚡ Japanese dragons are wise spirits that live in waterfalls!',
+  '💎 Dragon eggs take 1000 days to hatch!',
+  '🐉 Some dragons can live for 1000 years!'
+];
+
+const quizzes = [
+  { q: 'Which dragon type breathes fire?', a: ['Fire', 'Water', 'Ice'], c: 0 },
+  { q: 'What do Chinese dragons bring?', a: ['Snow', 'Rain', 'Wind'], c: 1 },
+  { q: 'Where do European dragons live?', a: ['Ocean', 'Mountain', 'Forest'], c: 1 }
+];
+
+let playerArmy = [];
+let playerScore = 0;
+let playerGold = 100;
+let playerLevel = 1;
+let currentQuizIndex = 0;
+
+function showSection(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function initCollection() {
+  const display = document.getElementById('collectionDisplay');
+  display.innerHTML = '';
+  dragons.forEach((dragon, idx) => {
+    const card = document.createElement('div');
+    card.className = 'dragon-card';
+    card.onclick = () => addToArmy(idx);
+    card.innerHTML = `
+      <img src="${dragon.img}" alt="${dragon.name}">
+      <h3>${dragon.name}</h3>
+      <p>${dragon.type}</p>
+      <div class="dragon-stats">
+        <div class="stat-item">❤️ ${dragon.hp}</div>
+        <div class="stat-item">⚔️ ${dragon.attack}</div>
+        <div class="stat-item">${dragon.ability}</div>
+      </div>
+    `;
+    display.appendChild(card);
+  });
+}
+
+function addToArmy(idx) {
+  if (playerArmy.length < 3 && !playerArmy.includes(idx)) {
+    playerArmy.push(idx);
+    updateArmy();
+    playSound('success');
+  }
+}
+
+function updateArmy() {
+  const display = document.getElementById('armyDisplay');
+  display.innerHTML = '';
+  playerArmy.forEach((idx, i) => {
+    const dragon = dragons[idx];
+    const slot = document.createElement('div');
+    slot.className = 'squad-slot';
+    slot.onclick = () => removeFromArmy(i);
+    slot.innerHTML = `
+      <img src="${dragon.img}" alt="${dragon.name}">
+      <p>${dragon.name}</p>
+      <small>Click to remove</small>
+    `;
+    display.appendChild(slot);
+  });
+  for (let i = playerArmy.length; i < 3; i++) {
+    const empty = document.createElement('div');
+    empty.className = 'squad-slot';
+    empty.innerHTML = '<p>Empty Slot</p>';
+    display.appendChild(empty);
+  }
+}
+
+function removeFromArmy(i) {
+  playerArmy.splice(i, 1);
+  updateArmy();
+}
+
+function clearArmy() {
+  playerArmy = [];
+  updateArmy();
+}
+
+function startBattle() {
+  if (playerArmy.length === 0) {
+    alert('🐉 Add at least 1 dragon to your army!');
+    return;
+  }
+  
+  const display = document.getElementById('battleDisplay');
+  const playerDragon = dragons[playerArmy[0]];
+  const enemyIdx = Math.floor(Math.random() * dragons.length);
+  const enemyDragon = dragons[enemyIdx];
+  
+  const playerHp = playerDragon.hp;
+  const enemyHp = enemyDragon.hp;
+  
+  display.innerHTML = `
+    <div class="battle-display">
+      <div class="battle-side">
+        <h3>⚔️ Your Dragon</h3>
+        <img src="${playerDragon.img}" alt="${playerDragon.name}">
+        <h4>${playerDragon.name}</h4>
+        <div class="hp-bar"><div class="hp-fill" style="width: 100%; background: #26de81;">💚 ${playerHp}/${playerHp}</div></div>
+      </div>
+      <div class="battle-side">
+        <h3>🔥 Enemy Dragon</h3>
+        <img src="${enemyDragon.img}" alt="${enemyDragon.name}">
+        <h4>${enemyDragon.name}</h4>
+        <div class="hp-bar"><div class="hp-fill" style="width: 100%; background: #ee5a6f;">❤️ ${enemyHp}/${enemyHp}</div></div>
+      </div>
+    </div>
+    <button class="ability-btn" onclick="performAttack('${playerDragon.ability}', ${playerDragon.attack})">🔥 ${playerDragon.ability}</button>
+    <p id="battleLog"></p>
+  `;
+  playSound('battle');
+}
+
+function performAttack(ability, damage) {
+  const log = document.getElementById('battleLog');
+  const randomDamage = damage + Math.floor(Math.random() * 5);
+  log.textContent = `💥 ${ability} did ${randomDamage} damage! `;
+  
+  playerScore += randomDamage;
+  playerGold += 10;
+  updateStats();
+  
+  setTimeout(() => {
+    log.textContent += '🎉 You won! +20 Gold';
+    playSound('win');
+  }, 1000);
+}
+
+function updateStats() {
+  document.getElementById('scoreDisplay').textContent = playerScore;
+  document.getElementById('goldDisplay').textContent = playerGold;
+  document.getElementById('levelDisplay').textContent = Math.floor(playerScore / 100) + 1;
+}
+
+function initFacts() {
+  const display = document.getElementById('factsDisplay');
+  display.innerHTML = facts.map(f => `<p style="font-size: 1.1rem; margin: 10px; padding: 10px; background: #fffacd; border-radius: 10px;">${f}</p>`).join('');
+}
+
+function initQuiz() {
+  const display = document.getElementById('quizDisplay');
+  const q = quizzes[currentQuizIndex];
+  display.innerHTML = `
+    <h3>${q.q}</h3>
+    ${q.a.map((ans, i) => `<button class="btn" onclick="checkQuizAnswer(${i}, ${q.c})">${ans}</button>`).join('')}
+    <p id="quizResult"></p>
+  `;
+}
+
+function checkQuizAnswer(picked, correct) {
+  const result = document.getElementById('quizResult');
+  if (picked === correct) {
+    result.textContent = '✅ Correct! +10 Gold';
+    playerGold += 10;
+    playSound('success');
+  } else {
+    result.textContent = '❌ Oops! Try again.';
+  }
+  currentQuizIndex = (currentQuizIndex + 1) % quizzes.length;
+  updateStats();
+}
+
+function playSound(type) {
+  // Simple audio simulation (can add real sound URLs later)
+  console.log('🔊 Sound:', type);
+}
+
+// Init
+initCollection();
+updateArmy();
+initFacts();
+initQuiz();
+updateStats();
+</script>
+
+</body>
+</html>
     <option>👀 Big</option>
     <option>😎 Cool</option>
     <option>😈 Mischievous</option>
