@@ -1,69 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dragon Landing Page</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dragon Playground</title>
+<style>
+:root { --bg:#fff6e8; --card:#fff; --card2:#ffefc7; --blue:#1f60db; --pink:#ff5f99; --green:#2aaf65; --shadow:0 8px 20px rgba(0,0,0,0.12); --radius:18px; }
+*{box-sizing:border-box;margin:0;padding:0;font-family:Comic Sans MS,Comic Sans,cursive;}
+body{background:linear-gradient(135deg,#ffd8a2,#fffead);color:#333;min-height:100vh;line-height:1.4;}
+.container{width:min(1100px,95%);margin:auto;padding:1rem;}
+header{padding:1rem;margin-bottom:1rem;text-align:center;background:linear-gradient(90deg,#ff9e6b,#ffde65);border-radius:20px;box-shadow:var(--shadow);}
+header h1{font-size:min(2.2rem,8vw);color:#5b2d97;text-shadow:1px 1px 2px rgba(0,0,0,.2);}
+header p{margin-top:.4rem;font-size:1.1rem; font-weight:700;color:#3f235b;}
+nav{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin:1rem 0;}
+nav button{background:#74d2ff;border:none;padding:.65rem 1rem;border-radius:999px;cursor:pointer;font-weight:700;color:#163e7b;transition:.2s;box-shadow:0 4px 10px rgba(0,0,0,.15);}
+nav button:hover{transform:translateY(-2px);background:#3db8ff;color:#fff;}
+section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:1rem;margin-bottom:1rem;animation:fade-in .6s ease both;}
+h2{font-size:1.7rem;color:#403b94;margin-bottom:.6rem;text-align:center;}
+.cardlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.7rem;}
+.card{background:var(--card2);border:2px dashed #f8b815;padding:.8rem;border-radius:16px;position:relative;overflow:hidden;transition:.2s;cursor:pointer;}
+.card:hover{transform:translateY(-3px);border-color:#ff7b4c;}
+.card:before{content:'🐉';position:absolute;right:8px;top:8px;font-size:1.5rem;opacity:.15;}
+.card h3{font-size:1.2rem;margin-bottom:.3rem;color:#803272;}
+.card p{font-size:.95rem;margin-bottom:.3rem;}
+.quiz, .creator, .fun, .meet, .namegen{margin-top:1rem;}
+.btn{background:#5cb8ff;color:#fff;border:none;font-size:1rem;padding:.6rem 1rem;border-radius:12px;cursor:pointer;margin:.2rem .1rem;transition:.15s;box-shadow:0 4px 8px rgba(0,0,0,.12);}
+.btn:hover{transform:translateY(-2px);background:#2b99f5;}
+input[type=range]{width:100%;margin:.3rem 0;}
+input[type=text]{width:100%;padding:.55rem .6rem;margin:.35rem 0;border:2px solid #eda494;border-radius:9px;}
+.small{font-size:.95rem;}
+#quizResult,#createResult,#nameOutput{font-weight:700;margin-top:.5rem;color:#1d6f25;}
+.toggle{display:flex;align-items:center;gap:.5rem; margin:.5rem 0;}
+.toggle input{width:1.1rem;height:1.1rem;}
+@keyframes fade-in {from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@media (max-width:600px){.cardlist{grid-template-columns:1fr;}.nav{flex-wrap:wrap;}}
+</style>
 </head>
 <body>
-  <header class="hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <h1>Awaken the Dragon</h1>
-      <p>Where legends are born and fire meets the sky.</p>
-      <a href="#scales" class="cta">Discover Your Quest</a>
-    </div>
-  </header>
+<div class="container">
+<header>
+  <h1>🦜 Dragon Playground</h1>
+  <p>Play, learn and create your own friendly dragon!</p>
+</header>
+<nav>
+  <button onclick="scrollToSection('meet')">Meet the Dragons</button>
+  <button onclick="scrollToSection('quiz')">Dragon Quiz</button>
+  <button onclick="scrollToSection('create')">Create Your Dragon</button>
+  <button onclick="scrollToSection('fun')">Fun Facts</button>
+  <button onclick="scrollToSection('namegen')">Dragon Names</button>
+</nav>
 
-  <main>
-    <section id="about" class="section section-dark">
-      <h2>Meet Your Dragon</h2>
-      <p>
-        You’ve entered a world of high fantasy; every moment is a chance for glory.
-        Equip your courage, ride the wind, and join a civilization that reveres draconic power.
-      </p>
-    </section>
+<section id="meet" class="meet">
+  <h2>Meet the Dragons</h2>
+  <div class="cardlist"></div>
+</section>
 
-    <section id="scales" class="section">
-      <h2>Features</h2>
-      <div class="cards">
-        <article class="card">
-          <h3>Legendary Journey</h3>
-          <p>Begin your adventure with epic quests, mystery-filled dungeons, and ancient ruins.</p>
-        </article>
-        <article class="card">
-          <h3>Dragon Bond</h3>
-          <p>Uncover the bond between rider and dragon, unlock elemental powers, and shape the fate of the realm.</p>
-        </article>
-        <article class="card">
-          <h3>Community of Heroes</h3>
-          <p>Forge alliances, enter tournaments, and rise in the halls of fame.</p>
-        </article>
-      </div>
-    </section>
+<section id="quiz" class="quiz">
+  <h2>Dragon Quiz</h2>
+  <div id="questionArea"></div>
+  <div id="quizResult"></div>
+</section>
 
-    <section id="gallery" class="section">
-      <h2>Dragon Gallery</h2>
-      <div class="gallery-grid">
-        <img src="IMG-20211122-WA0000.jpg" alt="Dragon one" />
-        <img src="IMG-20211217-WA0001.jpg" alt="Dragon two" />
-      </div>
-      <p class="hint">These images are from your local project source paths.</p>
-    </section>
+<section id="create" class="creator">
+  <h2>Create Your Dragon</h2>
+  <label>Body Color: <span id="colorVal">#ff7a7a</span></label>
+  <input type="color" id="bodyColor" value="#ff7a7a" onchange="renderDragon()">
+  <label>Eye Color: <span id="eyeVal">#6ab0ff</span></label>
+  <input type="color" id="eyeColor" value="#6ab0ff" onchange="renderDragon()">
+  <label>Wing Size:</label>
+  <input type="range" id="wingSize" min="0.8" max="1.6" step="0.05" value="1" onchange="renderDragon()">
+  <label>Horn Style:</label>
+  <select id="hornStyle" onchange="renderDragon()">
+    <option value="spike">Spiky</option>
+    <option value="curl">Curly</option>
+    <option value="round">Bumpy</option>
+  </select>
+  <div id="createResult"></div>
+  <div style="margin-top:.8rem;text-align:center;">
+    <div id="dragonPreview" style="width:280px;height:220px;margin:auto;position:relative;"></div>
+  </div>
+</section>
 
-    <section id="signup" class="section section-dark">
-      <h2>Join the Order</h2>
-      <p>Sign up for early access and receive the Dragon Emblem pack.</p>
-      <form class="signup-form" action="#" method="get">
-        <input type="email" name="email" placeholder="Your email address" required />
-        <button type="submit">Claim Your Emblem</button>
-      </form>
-    </section>
-  </main>
+<section id="fun" class="fun">
+  <h2>Fun Facts</h2>
+  <ul id="factsList"></ul>
+</section>
 
-  <footer>
-    <p>Dragon Landing Page • Ignite your legacy.</p>
-  </footer>
+<section id="namegen" class="namegen">
+  <h2>Dragon Name Generator</h2>
+  <div class="toggle"><input type="checkbox" id="soundToggle" checked><label for="soundToggle">Sound effects on</label></div>
+  <button class="btn" onclick="generateName()">Generate Name 🧚</button>
+  <p id="nameOutput" aria-live="polite"></p>
+</section>
+</div>
+
+<audio id="popSound" src="https://cdn.jsdelivr.net/gh/johnsmih/sounds@latest/pop.mp3" preload="auto"></audio>
+
+<script>
+const dragons=[{name:'European Ember',type:'Fire',desc:'Loves hiking on volcano mountains and blowing gentle ember clouds.',emoji:'🔥'},
+{name:'Chinese Cloud',type:'Rain',desc:'Brings lucky rainbows and helps gardens grow.',emoji:'☁️'},
+{name:'Japanese Whisper',type:'Spirit',desc:'Kind guardian of morning mist and cherry blossoms.',emoji:'🍃'},
+{name:'Ice Spark',type:'Ice',desc:'Made of snowflakes, loves making sparkly artwork.',emoji:'❄️'}];
+const quiz=[{q:'Which dragon is friendly in many stories?',a:['The hoarding dragon','The kind dragon','The noisy dragon'],c:1},
+{q:'Chinese dragons are known for...',a:['bringing rain and luck','lifting cars','making ice cream'],c:0},
+{q:'What do dragon wings help them do?',a:['bake cookies','fly high','sing songs'],c:1}];
+const facts=['European dragons often have big wings and live in caves.','Chinese dragons are long and snake-like, they fly without wings!','Japanese dragons are wise and water-loving.','Dragons appear in many cultures as helpers, not just scary beasts.'];
+const hornShapes={spike:'▲▲▲',curl:'➰➰➰',round:'◉◉◉'};
+function scrollToSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth'}); playSound();}
+function playSound(){if(document.getElementById('soundToggle').checked){document.getElementById('popSound').currentTime=0;document.getElementById('popSound').play();}}
+function initMeet(){const c=document.querySelector('.cardlist');c.innerHTML='';dragons.forEach(d=>{const card=document.createElement('div');card.className='card';card.innerHTML=`<h3>${d.emoji} ${d.name}</h3><p><em>Type:</em> ${d.type}</p><p>${d.desc}</p>`;card.onclick=()=>{alert('Hooray! You met '+d.name+'!'); playSound();};c.appendChild(card);});}
+let currentQ=0,score=0;
+function showQuiz(){if(currentQ>=quiz.length){document.getElementById('questionArea').innerHTML=`<p class="small">Great job! You got ${score}/${quiz.length}.</p><button class="btn" onclick="restartQuiz()">Play again</button>`;return;}const q=quiz[currentQ];const html=`<p style="font-weight:700;">${q.q}</p>${q.a.map((o,i)=>`<button class="btn" onclick="answerQuiz(${i})">${o}</button>`).join('')}<p class="small">Question ${currentQ+1} of ${quiz.length}</p>`;document.getElementById('questionArea').innerHTML=html;}
+function answerQuiz(i){if(i===quiz[currentQ].c){score++;document.getElementById('quizResult').textContent='👍 Correct!';}else{document.getElementById('quizResult').textContent='😮 Oops, try next!';}currentQ++;setTimeout(()=>{document.getElementById('quizResult').textContent='';showQuiz();},700);playSound();}
+function restartQuiz(){currentQ=0;score=0;showQuiz();}
+function renderDragon(){const b=document.getElementById('bodyColor').value,e=document.getElementById('eyeColor').value,w=document.getElementById('wingSize').value,h=document.getElementById('hornStyle').value;document.getElementById('colorVal').textContent=b;document.getElementById('eyeVal').textContent=e; document.getElementById('createResult').textContent='Your dragon is ready! ✨';const p=document.getElementById('dragonPreview');p.innerHTML=`<div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:180px;height:120px;border-radius:90px;background:${b};box-shadow:0 0 0 3px #00000030;"></div><div style="position:absolute;bottom:100px;left:36%;width:70px;height:40px;background:${b};border-radius:20px;transform-origin:bottom center;transform:scale(${w});"></div><div style="position:absolute;bottom:100px;left:56%;width:70px;height:40px;background:${b};border-radius:20px;transform-origin:bottom center;transform:scale(${w}) rotateY(180deg);"></div><div style="position:absolute;bottom:130px;left:40%;width:45px;height:45px;border-radius:50%;background:${e};"></div><div style="position:absolute;bottom:130px;left:55%;width:45px;height:45px;border-radius:50%;background:${e};"></div><div style="position:absolute;bottom:150px;left:46%;font-size:1.4rem;">${hornShapes[h]}</div>`;playSound();}
+function showFacts(){const list=document.getElementById('factsList');list.innerHTML='';facts.forEach(f=>{const li=document.createElement('li');li.className='small';li.style.margin='6px 0';li.textContent='🟢 '+f;list.appendChild(li);});}
+const nameParts1=['Spark','Aqua','Flame','Misty','Thunder','Joy','Twinkle','Crystal','Storm','Sun'];
+const nameParts2=['whirl','wing','tail','heart','scale','cloud','glow','breeze','shine','dance'];
+function generateName(){const name=`${nameParts1[Math.floor(Math.random()*nameParts1.length)]}${nameParts2[Math.floor(Math.random()*nameParts2.length)]}`;document.getElementById('nameOutput').textContent='Your dragon name: '+name+' 🐲';playSound();}
+initMeet();showQuiz();renderDragon();showFacts();
+</script>
 </body>
 </html>
